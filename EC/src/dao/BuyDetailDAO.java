@@ -50,14 +50,14 @@ public class BuyDetailDAO {
 	 * @return {BuyDataDetailBeans}
 	 * @throws SQLException
 	 */
-	public ArrayList<BuyDetailDataBeans> getBuyDataBeansListByBuyId(int buyId) throws SQLException {
+	public ArrayList<BuyDetailDataBeans> getBuyDataBeansListByBuyId(String buyId) throws SQLException {
 		Connection con = null;
 		PreparedStatement st = null;
 		try {
 			con = DBManager.getConnection();
 
 			st = con.prepareStatement("SELECT * FROM t_buy_detail WHERE buy_id = ?");
-			st.setInt(1, buyId);
+			st.setString(1, buyId);
 
 			ResultSet rs = st.executeQuery();
 			ArrayList<BuyDetailDataBeans> buyDetailList = new ArrayList<BuyDetailDataBeans>();
@@ -89,7 +89,7 @@ public class BuyDetailDAO {
      *             購入詳細情報のデータを持つJavaBeansのリスト
      * @throws SQLException
      */
-	public static ArrayList<ItemDataBeans> getItemDataBeansListByBuyId(int buyId) throws SQLException {
+	public  ArrayList<ItemDataBeans> getItemDataBeansListByBuyId(String buyId) throws SQLException {
 		Connection con = null;
 		PreparedStatement st = null;
 		try {
@@ -103,7 +103,7 @@ public class BuyDetailDAO {
 					+ " JOIN m_item"
 					+ " ON t_buy_detail.item_id = m_item.id"
 					+ " WHERE t_buy_detail.buy_id = ?");
-			st.setInt(1, buyId);
+			st.setString(1, buyId);
 
 			ResultSet rs = st.executeQuery();
 			ArrayList<ItemDataBeans> buyDetailItemList = new ArrayList<ItemDataBeans>();

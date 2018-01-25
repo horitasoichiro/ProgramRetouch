@@ -10,9 +10,11 @@ public class BuyDataBeans  implements Serializable {
 	private int totalPrice;
 	private int delivertMethodId;
 	private Date buyDate;
-
 	private String deliveryMethodName;
 	private int deliveryMethodPrice;
+
+	private String dateformat;
+
 
 
 	public int getId() {
@@ -63,6 +65,12 @@ public class BuyDataBeans  implements Serializable {
 	}
 	public void setDeliveryMethodPrice(int deliveryMethodPrice) {
 		this.deliveryMethodPrice = deliveryMethodPrice;
+	}
+	public String getDateformat() {
+		return dateformat;
+	}
+	public void setDateformat(String dateformat) {
+		this.dateformat = dateformat;
 	}
 
 

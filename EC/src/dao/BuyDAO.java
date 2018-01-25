@@ -6,7 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import base.DBManager;
 import beans.BuyDataBeans;
@@ -61,8 +64,9 @@ public class BuyDAO {
 	 * 				購入情報のデータを持つJavaBeansのリスト
 	 * @throws SQLException
 	 * 				呼び出し元にスローさせるため
+	 * @throws ParseException
 	 */
-	public static BuyDataBeans getBuyDataBeansByBuyId(int buyId) throws SQLException {
+	public  BuyDataBeans getBuyDataBeansByBuyId(String buyId) throws SQLException, ParseException {
 		Connection con = null;
 		PreparedStatement st = null;
 		try {
@@ -73,7 +77,7 @@ public class BuyDAO {
 							+ " JOIN m_delivery_method"
 							+ " ON t_buy.delivery_method_id = m_delivery_method.id"
 							+ " WHERE t_buy.id = ?");
-			st.setInt(1, buyId);
+			st.setString(1, buyId);
 
 			ResultSet rs = st.executeQuery();
 
@@ -81,7 +85,14 @@ public class BuyDAO {
 			if (rs.next()) {
 				bdb.setId(rs.getInt("id"));
 				bdb.setTotalPrice(rs.getInt("total_price"));
-				bdb.setBuyDate(rs.getTimestamp("create_date"));
+
+
+				SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date create_Date = sdf3.parse(rs.getString("create_date"));
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH時mm分ss秒");
+                String dateFormat = sdf.format(create_Date);
+                bdb.setDateformat(dateFormat);
+//				bdb.setBuyDate(rs.getTimestamp("create_date"));
 				bdb.setDelivertMethodId(rs.getInt("delivery_method_id"));
 				bdb.setUserId(rs.getInt("user_id"));
 				bdb.setDeliveryMethodPrice(rs.getInt("price"));
@@ -100,7 +111,7 @@ public class BuyDAO {
 			}
 		}
 	}
-	public static ArrayList<BuyDataBeans> getBuyDataBeansByUserId(int userId) throws SQLException {
+	public  ArrayList<BuyDataBeans> getBuyDataBeansByUserId(int userId) throws SQLException, ParseException {
 		Connection con = null;
 		PreparedStatement st = null;
 		try {
@@ -122,10 +133,18 @@ public class BuyDAO {
 				bdb.setId(rs.getInt("id"));
 				bdb.setTotalPrice(rs.getInt("total_price"));
 				bdb.setBuyDate(rs.getTimestamp("create_date"));
+
+				SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date create_Date = sdf3.parse(rs.getString("create_date"));
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH時mm分ss秒");
+                String dateFormat = sdf.format(create_Date);
+                bdb.setDateformat(dateFormat);
+
 				bdb.setDelivertMethodId(rs.getInt("delivery_method_id"));
 				bdb.setUserId(rs.getInt("user_id"));
 				bdb.setDeliveryMethodPrice(rs.getInt("price"));
 				bdb.setDeliveryMethodName(rs.getString("name"));
+				userBuyList.add(bdb);
 			}
 
 			System.out.println("searching BuyDataBeans by buyID has been completed");

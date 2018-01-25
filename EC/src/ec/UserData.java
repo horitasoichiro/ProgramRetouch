@@ -1,6 +1,7 @@
 package ec;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.BuyDataBeans;
 import beans.UserDataBeans;
+import dao.BuyDAO;
 import dao.UserDAO;
 
 /**
@@ -38,8 +41,20 @@ public class UserData extends HttpServlet {
 			String validationMessage = (String) EcHelper.cutSessionAttribute(session, "validationMessage");
 
 
+//			購入情報実装
+//			BuyDataBeans bdb = new BuyDataBeans();
+//			ArrayList<BuyDataBeans> userBuyList = new ArrayList<BuyDataBeans>();
+//			userBuyList = BuyDAO.getBuyDataBeansByUserId(userId);
+
+			BuyDAO buyDao = new BuyDAO();
+			ArrayList<BuyDataBeans> userBuyList = buyDao.getBuyDataBeansByUserId(userId);
+
+
+
+
 			request.setAttribute("validationMessage", validationMessage);
 			request.setAttribute("udb", udb);
+			request.setAttribute("userBuyList", userBuyList);
 
 			request.getRequestDispatcher(EcHelper.USER_DATA_PAGE).forward(request, response);
 

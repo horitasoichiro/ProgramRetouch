@@ -46,13 +46,18 @@ public class BuyResult extends HttpServlet {
 				BuyDetailDAO.insertBuyDetail(bddb);
 			}
 
+			String strbuyId = String.valueOf(buyId);
+
 
 			/* ====購入完了ページ表示用==== */
-			BuyDataBeans resultBDB = BuyDAO.getBuyDataBeansByBuyId(buyId);
+			BuyDAO bd = new BuyDAO();
+			BuyDataBeans resultBDB = bd.getBuyDataBeansByBuyId(strbuyId);
 			request.setAttribute("resultBDB", resultBDB);
 
 			// 購入アイテム情報
-			ArrayList<ItemDataBeans> buyIDBList = BuyDetailDAO.getItemDataBeansListByBuyId(buyId);
+
+			BuyDetailDAO bdd = new BuyDetailDAO();
+			ArrayList<ItemDataBeans> buyIDBList = bdd.getItemDataBeansListByBuyId(strbuyId);
 			request.setAttribute("buyIDBList", buyIDBList);
 
 			// 購入完了ページ
